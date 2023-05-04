@@ -1,0 +1,53 @@
+version: '3.4'
+
+services:
+  learn.serilog:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - elastic
+  es-01:
+    container_name: es-01
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ElasticVersion}
+    environment:
+      - node.name=es-01
+      - cluster.name=es-cluster-7
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:${KibanaVerion}
+    environment:
+      ELASTICSEARCH_HOSTS: http://es-01:9200
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+    depends_on:
+      - es-01
+
+
+volumes:
+  es-data01:
+    driver: local
+
+networks:
+  elastic:

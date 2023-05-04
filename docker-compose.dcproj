@@ -3,7 +3,8 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>37486064-efe5-4127-83b7-24a3b749879a</ProjectGuid>
+    <ProjectGuid>2eb705a6-e9a1-4a45-9c1d-d09360c9a4a2</ProjectGuid>
+	<DockerComposeProjectName>learn-serilog</DockerComposeProjectName>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>learn.serilog</DockerServiceName>
